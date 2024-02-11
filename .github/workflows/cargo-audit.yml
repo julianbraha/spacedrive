@@ -1,0 +1,19 @@
+name: Dependency Audit
+
+on:
+  schedule:
+    - cron:  '0 0 1 * *'
+
+jobs:
+  audit:
+      runs-on: macos-14
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+        - name: Run cargo-audit
+          uses: actions-rs/audit-check@v1
+          with:
+            ignore:
+              RUSTSEC-2020-0099
+              RUSTSEC-2022-0040
+            token: ${{ secrets.GITHUB_TOKEN }}
